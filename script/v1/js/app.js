@@ -358,6 +358,38 @@
     ajouterConsole("info", "Code de départ remis. Ctrl+Z (ou Cmd+Z) dans un onglet pour revenir en arrière.");
   }
 
+  /* ---------------- Plein écran ---------------- */
+
+  /* Bouton dans l'en-tête ; caché si le navigateur ou Moodle ne permet pas le plein écran. */
+  function boutonPleinEcran() {
+    var root = document.documentElement;
+    var demander = root.requestFullscreen || root.webkitRequestFullscreen;
+    var permis = document.fullscreenEnabled || document.webkitFullscreenEnabled;
+    if (!demander || !permis) return;
+    var entete = document.querySelector(".entete");
+    if (!entete) return;
+    var b = document.createElement("button");
+    b.type = "button";
+    b.id = "btn-plein-ecran";
+    b.className = "bouton discret plein-ecran";
+    entete.appendChild(b);
+    function actuel() { return document.fullscreenElement || document.webkitFullscreenElement; }
+    function maj() {
+      var on = !!actuel();
+      b.textContent = on ? "Quitter le plein écran" : "Plein écran";
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      document.body.classList.toggle("en-plein-ecran", on);
+      if (editor) setTimeout(function () { editor.refresh(); }, 50);
+    }
+    b.addEventListener("click", function () {
+      if (actuel()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else demander.call(root);
+    });
+    document.addEventListener("fullscreenchange", maj);
+    document.addEventListener("webkitfullscreenchange", maj);
+    maj();
+  }
+
   /* ---------------- Démarrage ---------------- */
 
   function init() {
@@ -376,6 +408,7 @@
       : "Mode test hors Moodle : votre travail est enregistré dans ce navigateur uniquement.";
 
     apercu = new Apercu.Cadre($("apercu"), { surMessage: surMessage });
+    boutonPleinEcran();
 
     editor = CodeMirror($("editeur"), {
       value: "",

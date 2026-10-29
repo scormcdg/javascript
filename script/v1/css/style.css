@@ -549,3 +549,9 @@ body.apercu-grand .apercu { height: calc(100vh - 260px); min-height: 300px; }
 }
 
 .cadres-caches { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---------- Plein écran ---------- */
+
+.entete .plein-ecran { margin-left: 0; padding: 2px 6px; font-size: 0.9rem; }
+.entete .progression { margin-left: auto; }
+body.en-plein-ecran { min-height: 100vh; overflow: auto; }
