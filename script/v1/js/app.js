@@ -360,24 +360,27 @@
 
   /* ---------------- Plein écran ---------------- */
 
-  /* Bouton dans l'en-tête ; caché si le navigateur ou Moodle ne permet pas le plein écran. */
+  /* Petit bouton en bas à droite ; caché si le navigateur ou Moodle ne permet pas le plein écran. */
   function boutonPleinEcran() {
     var root = document.documentElement;
     var demander = root.requestFullscreen || root.webkitRequestFullscreen;
     var permis = document.fullscreenEnabled || document.webkitFullscreenEnabled;
     if (!demander || !permis) return;
-    var entete = document.querySelector(".entete");
-    if (!entete) return;
+    var AGRANDIR = "M1 5V1h4M9 1h4v4M13 9v4H9M5 13H1V9";
+    var REDUIRE = "M5 1v4H1M13 5H9V1M9 13V9h4M1 9h4v4";
     var b = document.createElement("button");
     b.type = "button";
     b.id = "btn-plein-ecran";
-    b.className = "bouton discret plein-ecran";
-    entete.appendChild(b);
+    b.className = "plein-ecran";
+    b.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d=""/></svg>';
+    var icone = b.querySelector("path");
+    document.body.appendChild(b);
     function actuel() { return document.fullscreenElement || document.webkitFullscreenElement; }
     function maj() {
       var on = !!actuel();
-      b.textContent = on ? "Quitter le plein écran" : "Plein écran";
-      b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.title = on ? "Quitter le plein écran" : "Plein écran";
+      b.setAttribute("aria-label", b.title);
+      icone.setAttribute("d", on ? REDUIRE : AGRANDIR);
       document.body.classList.toggle("en-plein-ecran", on);
       if (editor) setTimeout(function () { editor.refresh(); }, 50);
     }

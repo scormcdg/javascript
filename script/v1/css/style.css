@@ -552,6 +552,22 @@ body.apercu-grand .apercu { height: calc(100vh - 260px); min-height: 300px; }
 
 /* ---------- Plein écran ---------- */
 
-.entete .plein-ecran { margin-left: 0; padding: 2px 6px; font-size: 0.9rem; }
-.entete .progression { margin-left: auto; }
+.plein-ecran {
+  position: fixed;
+  right: 8px;
+  bottom: 6px;
+  z-index: 60;
+  width: 28px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--bordure);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--texte);
+  cursor: pointer;
+}
+.plein-ecran:hover { background: #f0f4fc; }
 body.en-plein-ecran { min-height: 100vh; overflow: auto; }
